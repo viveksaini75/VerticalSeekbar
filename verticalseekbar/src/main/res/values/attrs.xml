@@ -9,5 +9,6 @@
         <attr name="vs_progress" format="integer" />
         <attr name="vs_cornerRadius" format="dimension" />
         <attr name="vs_progressColor" format="color" />
+        <attr name="vs_backgroundColor" format="color" />
     </declare-styleable>
 </resources>

@@ -23,6 +23,7 @@ class VerticalSeekbar : View {
             val iconMedResId = a.getResourceId(R.styleable.VerticalSeekbar_vs_iconMedium, -1)
             val iconHiResId = a.getResourceId(R.styleable.VerticalSeekbar_vs_iconHigh, -1)
             progressColor = a.getColor(R.styleable.VerticalSeekbar_vs_progressColor,Color.parseColor("#ffffff"))
+            backgroundColor = a.getColor(R.styleable.VerticalSeekbar_vs_backgroundColor,Color.parseColor("#aa787878"))
             max = a.getInteger(R.styleable.VerticalSeekbar_vs_max, max)
             progress = a.getInteger(R.styleable.VerticalSeekbar_vs_progress, progress)
             cornerRadius = a.getDimension(R.styleable.VerticalSeekbar_vs_cornerRadius, cornerRadius)
@@ -49,7 +50,8 @@ class VerticalSeekbar : View {
             invalidate()
         }
     var max: Int = 10
-    private var progressColor: Int = 0
+    private var progressColor: Int? = 0
+    private var backgroundColor: Int? = 0
     private var progress: Int = 5
         set(value) {
             if (value > max) {
@@ -88,12 +90,12 @@ class VerticalSeekbar : View {
     private val iconRect: RectF = RectF()
     private val layoutRect: RectF = RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
     private val layoutPaint = Paint().apply {
-        color = Color.parseColor("#aa787878")
+        color = backgroundColor!!
         isAntiAlias = true
     }
     private val progressRect: RectF = RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
     private val progressPaint = Paint().apply {
-        color = progressColor
+        color = progressColor!!
         isAntiAlias = true
     }
     private val path = Path()
@@ -121,8 +123,9 @@ class VerticalSeekbar : View {
     }
 
     override fun onDraw(canvas: Canvas) {
-        progressPaint.color = progressColor
-        path.addRoundRect(layoutRect, cornerRadius, cornerRadius, Path.Direction.CW)
+        progressPaint.color = progressColor!!
+        layoutPaint.color = backgroundColor!!
+
         canvas.clipPath(path)
         canvas.drawRect(layoutRect, layoutPaint)
         canvas.drawRect(progressRect, progressPaint)

@@ -9,7 +9,7 @@
 
 
     <com.library.verticalseekbar.VerticalSeekbar
-        android:layout_width="80dp"
+        android:layout_width="40dp"
         android:layout_height="250dp"
         app:vs_cornerRadius="10dp"
         app:vs_iconHigh="@drawable/ic_volume_high_black_24dp"
@@ -17,6 +17,7 @@
         app:vs_iconMedium="@drawable/ic_volume_medium_black_24dp"
         app:vs_max="100"
         app:vs_progress="10"
+        app:vs_backgroundColor="#03A9F4"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>
