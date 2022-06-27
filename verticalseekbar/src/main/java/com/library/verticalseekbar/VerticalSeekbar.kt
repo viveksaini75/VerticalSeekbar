@@ -22,12 +22,20 @@ class VerticalSeekbar : View {
             val iconLoResId = a.getResourceId(R.styleable.VerticalSeekbar_vs_iconLow, -1)
             val iconMedResId = a.getResourceId(R.styleable.VerticalSeekbar_vs_iconMedium, -1)
             val iconHiResId = a.getResourceId(R.styleable.VerticalSeekbar_vs_iconHigh, -1)
-            progressColor = a.getColor(R.styleable.VerticalSeekbar_vs_progressColor,Color.parseColor("#ffffff"))
-            backgroundColor = a.getColor(R.styleable.VerticalSeekbar_vs_backgroundColor,Color.parseColor("#aa787878"))
+            progressColor = a.getColor(
+                R.styleable.VerticalSeekbar_vs_progressColor,
+                Color.parseColor("#ffffff")
+            )
+            backgroundColor = a.getColor(
+                R.styleable.VerticalSeekbar_vs_backgroundColor,
+                Color.parseColor("#aa787878")
+            )
             max = a.getInteger(R.styleable.VerticalSeekbar_vs_max, max)
             progress = a.getInteger(R.styleable.VerticalSeekbar_vs_progress, progress)
             cornerRadius = a.getDimension(R.styleable.VerticalSeekbar_vs_cornerRadius, cornerRadius)
-            iconWidth = a.getDimension(R.styleable.VerticalSeekbar_vs_iconSize,iconWidth)
+            iconWidth = a.getDimension(R.styleable.VerticalSeekbar_vs_iconSize, iconWidth)
+            textSize = a.getDimension(R.styleable.VerticalSeekbar_vs_textSize, textSize)
+            textColor = a.getColor(R.styleable.VerticalSeekbar_vs_textColor, textColor)
             thread {
                 if (iconHiResId != -1)
                     iconHigh = getBitmapFromVectorDrawable(context, iconHiResId)
@@ -82,7 +90,7 @@ class VerticalSeekbar : View {
         iconLow = getBitmapFromVectorDrawable(context, resId)
     }
 
-    fun setColor(value: Int){
+    fun setColor(value: Int) {
         progressColor = value
     }
 
@@ -93,24 +101,34 @@ class VerticalSeekbar : View {
             invalidate()
         }
 
-    private var textSize = dpToPx(30).toFloat()
-        set(value) {
-            field = value
-            invalidate()
-        }
+
     private val iconRect: RectF = RectF()
     private val layoutRect: RectF = RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
     private val layoutPaint = Paint().apply {
         color = backgroundColor!!
         isAntiAlias = true
     }
-    private val progressRect: RectF = RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
+    private val progressRect: RectF =
+        RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
     private val progressPaint = Paint().apply {
         color = progressColor!!
         isAntiAlias = true
     }
     private val path = Path()
-
+    private val textRect: Rect = Rect()
+    private var textSize = dpToPx(30).toFloat()
+        set(value) {
+            field = value
+            invalidate()
+        }
+    private var textColor = Color.BLACK
+        set(value) {
+            field = value
+            invalidate()
+        }
+    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        isAntiAlias = true
+    }
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -130,6 +148,7 @@ class VerticalSeekbar : View {
                 measuredWidth / 2f + iconWidth / 2,
                 measuredHeight / 2f + iconWidth / 2
             )
+
             path.addRoundRect(layoutRect, cornerRadius, cornerRadius, Path.Direction.CW)
         }
     }
@@ -137,10 +156,24 @@ class VerticalSeekbar : View {
     override fun onDraw(canvas: Canvas) {
         progressPaint.color = progressColor!!
         layoutPaint.color = backgroundColor!!
+        textPaint.color = textColor
+        textPaint.textSize = textSize
 
         canvas.clipPath(path)
         canvas.drawRect(layoutRect, layoutPaint)
         canvas.drawRect(progressRect, progressPaint)
+        val left = 0
+        val right = width
+        val top = 0
+        val bottom = height
+
+        textPaint.getTextBounds(progress.toString(), 0, progress.toString().length, textRect)
+        val fm: Paint.FontMetrics = textPaint.fontMetrics
+
+        val x: Float = (left + (right - left - textRect.width()) / 2).toFloat()
+        val y: Float = top + (bottom - top) / 2 - (fm.descent + fm.ascent) / 2
+        canvas.drawText(progress.toString(), x, y, textPaint)
+
 
         if (iconLow != null && iconMedium != null && iconHigh != null) {
             when {
