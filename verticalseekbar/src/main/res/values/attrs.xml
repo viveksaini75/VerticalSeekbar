@@ -13,5 +13,6 @@
         <attr name="vs_iconSize" format="dimension" />
         <attr name="vs_textSize" format="dimension" />
         <attr name="vs_textColor" format="color" />
+        <attr name="vs_textVisibility" format="boolean" />
     </declare-styleable>
 </resources>

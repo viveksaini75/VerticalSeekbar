@@ -9,13 +9,12 @@
 
 
     <com.library.verticalseekbar.VerticalSeekbar
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="250dp"
         app:vs_cornerRadius="10dp"
-         app:vs_max="100"
+        app:vs_max="100"
         app:vs_progress="10"
-        app:vs_textSize="16dp"
-        app:vs_textColor="#07D1F4"
+
         android:layout_centerInParent="true"
         />
 

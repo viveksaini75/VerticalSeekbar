@@ -36,6 +36,7 @@ class VerticalSeekbar : View {
             iconWidth = a.getDimension(R.styleable.VerticalSeekbar_vs_iconSize, iconWidth)
             textSize = a.getDimension(R.styleable.VerticalSeekbar_vs_textSize, textSize)
             textColor = a.getColor(R.styleable.VerticalSeekbar_vs_textColor, textColor)
+            textVisibility = a.getBoolean(R.styleable.VerticalSeekbar_vs_textVisibility, textVisibility)
             thread {
                 if (iconHiResId != -1)
                     iconHigh = getBitmapFromVectorDrawable(context, iconHiResId)
@@ -116,7 +117,7 @@ class VerticalSeekbar : View {
     }
     private val path = Path()
     private val textRect: Rect = Rect()
-    private var textSize = dpToPx(30).toFloat()
+    private var textSize = dpToPx(20).toFloat()
         set(value) {
             field = value
             invalidate()
@@ -129,6 +130,11 @@ class VerticalSeekbar : View {
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         isAntiAlias = true
     }
+    private var textVisibility = false
+        set(value) {
+            field= value
+            invalidate()
+        }
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -172,7 +178,6 @@ class VerticalSeekbar : View {
 
         val x: Float = (left + (right - left - textRect.width()) / 2).toFloat()
         val y: Float = top + (bottom - top) / 2 - (fm.descent + fm.ascent) / 2
-        canvas.drawText(progress.toString(), x, y, textPaint)
 
 
         if (iconLow != null && iconMedium != null && iconHigh != null) {
@@ -186,6 +191,10 @@ class VerticalSeekbar : View {
                 else -> {
                     canvas.drawBitmap(iconHigh!!, null, iconRect, null)
                 }
+            }
+        } else {
+            if (textVisibility) {
+                canvas.drawText(progress.toString(), x, y, textPaint)
             }
         }
     }
