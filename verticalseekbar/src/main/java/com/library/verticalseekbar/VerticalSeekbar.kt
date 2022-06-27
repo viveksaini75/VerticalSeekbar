@@ -27,6 +27,7 @@ class VerticalSeekbar : View {
             max = a.getInteger(R.styleable.VerticalSeekbar_vs_max, max)
             progress = a.getInteger(R.styleable.VerticalSeekbar_vs_progress, progress)
             cornerRadius = a.getDimension(R.styleable.VerticalSeekbar_vs_cornerRadius, cornerRadius)
+            iconWidth = a.getDimension(R.styleable.VerticalSeekbar_vs_iconSize,iconWidth)
             thread {
                 if (iconHiResId != -1)
                     iconHigh = getBitmapFromVectorDrawable(context, iconHiResId)
@@ -44,7 +45,7 @@ class VerticalSeekbar : View {
     var iconMedium: Bitmap? = null
     var iconLow: Bitmap? = null
 
-    var cornerRadius = dpToPx(10).toFloat()
+    private var cornerRadius = dpToPx(10).toFloat()
         set(value) {
             field = value
             invalidate()
@@ -86,7 +87,17 @@ class VerticalSeekbar : View {
     }
 
 
-    private val iconWidth = dpToPx(36)
+    private var iconWidth = dpToPx(36).toFloat()
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    private var textSize = dpToPx(30).toFloat()
+        set(value) {
+            field = value
+            invalidate()
+        }
     private val iconRect: RectF = RectF()
     private val layoutRect: RectF = RectF(0f, 0f, measuredWidth.toFloat(), measuredHeight.toFloat())
     private val layoutPaint = Paint().apply {
@@ -99,6 +110,7 @@ class VerticalSeekbar : View {
         isAntiAlias = true
     }
     private val path = Path()
+
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

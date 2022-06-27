@@ -17,7 +17,7 @@
         app:vs_iconMedium="@drawable/ic_volume_medium_black_24dp"
         app:vs_max="100"
         app:vs_progress="10"
-        app:vs_backgroundColor="#03A9F4"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        />
 
 </RelativeLayout>

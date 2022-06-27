@@ -10,5 +10,7 @@
         <attr name="vs_cornerRadius" format="dimension" />
         <attr name="vs_progressColor" format="color" />
         <attr name="vs_backgroundColor" format="color" />
+        <attr name="vs_iconSize" format="dimension" />
+        <attr name="vs_textSize" format="dimension" />
     </declare-styleable>
 </resources>
